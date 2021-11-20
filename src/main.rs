@@ -2,7 +2,10 @@ use std::{env, fmt::Write};
 
 use serenity::{
     async_trait,
-    model::{channel::{Message, MessageType}, gateway::Ready},
+    model::{
+        channel::{Message, MessageType},
+        gateway::Ready,
+    },
     prelude::*,
 };
 
@@ -17,6 +20,15 @@ impl EventHandler for Handler {
     // events can be dispatched simultaneously.
     async fn message(&self, ctx: Context, msg: Message) {
         if msg.kind == MessageType::InlineReply {
+            println!(
+                "{} 서버 {} 채널에서 {}#{}({}) 유저가 답장을 사용했습니다!\n> {}",
+                msg.guild_id.unwrap_or_default(),
+                msg.channel_id,
+                msg.author.name,
+                msg.author.discriminator,
+                msg.author.id,
+                msg.content,
+            );
             // Deleting a message can fail, due to a network error, an
             // authentication error, or lack of permissions to post in the
             // channel, so log to stdout when some error happens, with a
