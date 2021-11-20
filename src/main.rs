@@ -2,7 +2,7 @@ use std::{env, fmt::Write};
 
 use serenity::{
     async_trait,
-    model::{channel::Message, gateway::Ready},
+    model::{channel::{Message, MessageType}, gateway::Ready},
     prelude::*,
 };
 
@@ -16,7 +16,7 @@ impl EventHandler for Handler {
     // Event handlers are dispatched through a threadpool, and so multiple
     // events can be dispatched simultaneously.
     async fn message(&self, ctx: Context, msg: Message) {
-        if msg.referenced_message.is_some() {
+        if msg.kind == MessageType::InlineReply {
             // Deleting a message can fail, due to a network error, an
             // authentication error, or lack of permissions to post in the
             // channel, so log to stdout when some error happens, with a
